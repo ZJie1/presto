@@ -21,6 +21,7 @@
 #include "presto_cpp/presto_protocol/presto_protocol.h"
 #include "velox/common/time/Timer.h"
 #include "velox/type/tz/TimeZoneMap.h"
+#include "velox-plugin/cider-velox/src/CiderVeloxPluginCtx.h"
 
 namespace facebook::presto {
 
@@ -225,6 +226,7 @@ proxygen::RequestHandler* TaskResource::createOrUpdateTask(
           protocol::TaskUpdateRequest taskUpdateRequest =
               json::parse(updateJson);
           velox::core::PlanFragment planFragment;
+          facebook::velox::plugin::CiderVeloxPluginCtx::init();
           if (taskUpdateRequest.fragment) {
             auto fragment =
                 velox::encoding::Base64::decode(*taskUpdateRequest.fragment);
@@ -232,6 +234,9 @@ proxygen::RequestHandler* TaskResource::createOrUpdateTask(
             VeloxQueryPlanConverter converter(pool_.get());
             planFragment = converter.toVeloxQueryPlan(
                 prestoPlan, taskUpdateRequest.tableWriteInfo, taskId);
+            auto rootNode = planFragment.planNode;
+            LOG(INFO) << "Root node is " << rootNode->name();
+            planFragment.planNode = facebook::velox::plugin::CiderVeloxPluginCtx::transformVeloxPlan(rootNode);
           }
           const auto& session = taskUpdateRequest.session;
           auto configs = std::unordered_map<std::string, std::string>(
