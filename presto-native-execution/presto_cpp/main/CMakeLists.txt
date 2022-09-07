@@ -16,6 +16,8 @@ add_subdirectory(common)
 add_subdirectory(thrift)
 add_subdirectory(connectors)
 
+link_directories(./lib)
+
 add_library(
   presto_server_lib
   Announcer.cpp
@@ -29,8 +31,25 @@ add_library(
   TaskManager.cpp
   TaskResource.cpp)
 
-add_dependencies(presto_server_lib presto_operators presto_protocol
-                 presto_types presto_thrift-cpp2 presto_thrift_extra)
+set(
+  CIDER_VELOX_LIB
+  velox_plugin
+  cider_plan_transformer
+  velox_substrait_convertor
+  velox_substrait_plan_converter
+  velox_duckdb_parser
+  velox_exec_test_util
+  velox_plan_transformer
+  velox_arrow_bridge
+  cider
+  QueryEngine
+  cider_function
+  LLVM
+  yaml-cpp
+)
+
+add_dependencies(presto_server_lib presto_operators presto_protocol presto_types
+                 presto_thrift-cpp2 presto_thrift_extra)
 
 target_include_directories(presto_server_lib PRIVATE ${presto_thrift_INCLUDES})
 target_link_libraries(
@@ -64,7 +83,13 @@ target_link_libraries(
   ${ANTLR4_RUNTIME}
   ${GLOG}
   ${GFLAGS_LIBRARIES}
-  pthread)
+  pthread
+  ${CIDER_VELOX_LIB}
+  )
+
+if(VELOX_ENABLE_HDFS)
+  target_link_libraries(presto_server_lib velox_hdfs)
+endif()
 
 add_executable(presto_server PrestoMain.cpp)
 
@@ -82,6 +107,6 @@ if(PRESTO_ENABLE_PARQUET)
   target_link_libraries(presto_server velox_dwio_parquet_reader)
 endif()
 
-if(PRESTO_ENABLE_TESTING)
-  add_subdirectory(tests)
-endif()
+# if(PRESTO_ENABLE_TESTING)
+#   add_subdirectory(tests)
+# endif()

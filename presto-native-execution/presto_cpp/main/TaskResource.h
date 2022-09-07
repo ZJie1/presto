@@ -17,6 +17,8 @@
 #include "presto_cpp/main/http/HttpServer.h"
 #include "velox/common/memory/Memory.h"
 
+DECLARE_bool(enable_velox_plugin_BDTK);
+
 namespace facebook::presto {
 
 class TaskResource {

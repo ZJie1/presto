@@ -22,6 +22,9 @@
 #include "presto_cpp/presto_protocol/presto_protocol.h"
 #include "velox/common/time/Timer.h"
 #include "velox/type/tz/TimeZoneMap.h"
+#include "velox-plugin/cider-velox/src/CiderVeloxPluginCtx.h"
+
+DEFINE_bool(enable_velox_plugin_BDTK, true, "switch to turn on velox plugin using BDTK");
 
 namespace facebook::presto {
 
@@ -325,6 +328,11 @@ proxygen::RequestHandler* TaskResource::createOrUpdateBatchTask(
             taskId,
             shuffleName,
             std::move(serializedShuffleWriteInfo));
+        auto rootNode = planFragment.planNode;
+        LOG(INFO) << "Root node is " << rootNode->name();
+        if (FLAGS_enable_velox_plugin_BDTK) {
+          planFragment.planNode = facebook::velox::plugin::CiderVeloxPluginCtx::transformVeloxPlan(rootNode);
+        }
       });
 }
 
@@ -348,6 +356,11 @@ proxygen::RequestHandler* TaskResource::createOrUpdateTask(
           VeloxQueryPlanConverter converter(pool_.get());
           planFragment = converter.toVeloxQueryPlan(
               prestoPlan, taskUpdateRequest.tableWriteInfo, taskId);
+          auto rootNode = planFragment.planNode;
+          LOG(INFO) << "Root node is " << rootNode->name();
+          if (FLAGS_enable_velox_plugin_BDTK) {
+            planFragment.planNode = facebook::velox::plugin::CiderVeloxPluginCtx::transformVeloxPlan(rootNode);
+          }
         }
       });
 }

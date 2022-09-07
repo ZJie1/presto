@@ -46,6 +46,7 @@
 #include "velox/functions/prestosql/registration/RegistrationFunctions.h"
 #include "velox/functions/prestosql/window/WindowFunctionsRegistration.h"
 #include "velox/serializers/PrestoSerializer.h"
+#include "BDTK/cider-velox/src/CiderVeloxPluginCtx.h"
 
 #ifdef PRESTO_ENABLE_PARQUET
 #include "velox/dwio/parquet/RegisterParquetReader.h" // @manual
@@ -250,6 +251,10 @@ void PrestoServer::run() {
 #ifdef PRESTO_ENABLE_PARQUET
   velox::parquet::registerParquetReaderFactory();
 #endif
+
+  if (FLAGS_enable_velox_plugin_BDTK) {
+    facebook::velox::plugin::CiderVeloxPluginCtx::init();
+  }
 
   taskManager_ = std::make_unique<TaskManager>(
       systemConfig->values(), nodeConfig->values());
