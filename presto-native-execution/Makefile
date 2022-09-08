@@ -22,6 +22,7 @@ CMAKE_PREFIX_PATH ?= "/usr/local"
 PRESTOCPP_ROOT_DIR="$(shell pwd)"
 
 PRESTO_ENABLE_PARQUET ?= "OFF"
+VELOX_ENABLE_HDFS ?= "OFF"
 PRESTO_ENABLE_S3 ?= "OFF"
 PRESTO_ENABLE_HDFS ?= "OFF"
 EXTRA_CMAKE_FLAGS ?= ""
@@ -33,6 +34,7 @@ CMAKE_FLAGS += -DCMAKE_BUILD_TYPE=$(BUILD_TYPE)
 CMAKE_FLAGS += -DPRESTO_ENABLE_PARQUET=$(PRESTO_ENABLE_PARQUET)
 CMAKE_FLAGS += -DPRESTO_ENABLE_S3=$(PRESTO_ENABLE_S3)
 CMAKE_FLAGS += -DPRESTO_ENABLE_HDFS=$(PRESTO_ENABLE_HDFS)
+CMAKE_FLAGS += -DVELOX_ENABLE_HDFS=$(VELOX_ENABLE_HDFS)
 
 SHELL := /bin/bash
 
@@ -61,7 +63,7 @@ velox-submodule:		#: Check out code for velox submodule
 
 submodules: velox-submodule
 
-cmake: submodules		#: Use CMake to create a Makefile build system
+cmake:           		#: Use CMake to create a Makefile build system
 	cmake -B "$(BUILD_BASE_DIR)/$(BUILD_DIR)" $(FORCE_COLOR) $(CMAKE_FLAGS) $(EXTRA_CMAKE_FLAGS)
 
 build:					#: Build the software based in BUILD_DIR and BUILD_TYPE variables
