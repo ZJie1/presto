@@ -53,7 +53,7 @@ velox-submodule:		#: Check out code for velox submodule
 
 submodules: velox-submodule
 
-cmake: submodules		#: Use CMake to create a Makefile build system
+cmake:           		#: Use CMake to create a Makefile build system
 	cmake -B "$(BUILD_BASE_DIR)/$(BUILD_DIR)" $(FORCE_COLOR) $(CMAKE_FLAGS)
 
 build:					#: Build the software based in BUILD_DIR and BUILD_TYPE variables
