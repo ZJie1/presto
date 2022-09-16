@@ -45,6 +45,7 @@ set(
   cider_function
   LLVM
   yaml-cpp
+  tbb
 )
 
 add_dependencies(presto_server_lib presto_protocol presto_types
