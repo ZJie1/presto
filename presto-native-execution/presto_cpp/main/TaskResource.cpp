@@ -226,7 +226,6 @@ proxygen::RequestHandler* TaskResource::createOrUpdateTask(
           protocol::TaskUpdateRequest taskUpdateRequest =
               json::parse(updateJson);
           velox::core::PlanFragment planFragment;
-          facebook::velox::plugin::CiderVeloxPluginCtx::init();
           if (taskUpdateRequest.fragment) {
             auto fragment =
                 velox::encoding::Base64::decode(*taskUpdateRequest.fragment);
