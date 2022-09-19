@@ -22,7 +22,7 @@
 #include "presto_cpp/presto_protocol/presto_protocol.h"
 #include "velox/common/time/Timer.h"
 #include "velox/type/tz/TimeZoneMap.h"
-#include "velox-plugin/cider-velox/src/CiderVeloxPluginCtx.h"
+#include "BDTK/cider-velox/src/CiderVeloxPluginCtx.h"
 
 DEFINE_bool(enable_velox_plugin_BDTK, true, "switch to turn on velox plugin using BDTK");
 
