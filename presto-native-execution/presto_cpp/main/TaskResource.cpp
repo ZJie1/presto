@@ -23,6 +23,8 @@
 #include "velox/type/tz/TimeZoneMap.h"
 #include "velox-plugin/cider-velox/src/CiderVeloxPluginCtx.h"
 
+DEFINE_bool(enable_velox_plugin_BDTK, true, "switch to turn on velox plugin cider");
+
 namespace facebook::presto {
 
 namespace {
@@ -235,7 +237,7 @@ proxygen::RequestHandler* TaskResource::createOrUpdateTask(
                 prestoPlan, taskUpdateRequest.tableWriteInfo, taskId);
             auto rootNode = planFragment.planNode;
             LOG(INFO) << "Root node is " << rootNode->name();
-            if (FLAGS_enable_velox_plugin_cider) {
+            if (FLAGS_enable_velox_plugin_BDTK) {
               planFragment.planNode = facebook::velox::plugin::CiderVeloxPluginCtx::transformVeloxPlan(rootNode);
             }
           }
