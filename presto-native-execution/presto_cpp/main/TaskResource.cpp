@@ -23,7 +23,7 @@
 #include "velox/type/tz/TimeZoneMap.h"
 #include "velox-plugin/cider-velox/src/CiderVeloxPluginCtx.h"
 
-DEFINE_bool(enable_velox_plugin_BDTK, true, "switch to turn on velox plugin cider");
+DEFINE_bool(enable_velox_plugin_BDTK, true, "switch to turn on velox plugin using BDTK");
 
 namespace facebook::presto {
 
