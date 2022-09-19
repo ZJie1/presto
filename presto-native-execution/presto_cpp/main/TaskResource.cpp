@@ -235,7 +235,9 @@ proxygen::RequestHandler* TaskResource::createOrUpdateTask(
                 prestoPlan, taskUpdateRequest.tableWriteInfo, taskId);
             auto rootNode = planFragment.planNode;
             LOG(INFO) << "Root node is " << rootNode->name();
-            planFragment.planNode = facebook::velox::plugin::CiderVeloxPluginCtx::transformVeloxPlan(rootNode);
+            if (FLAGS_enable_velox_plugin_cider) {
+              planFragment.planNode = facebook::velox::plugin::CiderVeloxPluginCtx::transformVeloxPlan(rootNode);
+            }
           }
           const auto& session = taskUpdateRequest.session;
           auto configs = std::unordered_map<std::string, std::string>(

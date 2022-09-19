@@ -19,6 +19,7 @@
 #include "velox/common/base/StatsReporter.h"
 
 DEFINE_string(etc_dir, ".", "etc directory for presto configuration");
+DEFINE_bool(enable_velox_plugin_cider, true, "switch to turn on velox plugin cider");
 
 int main(int argc, char* argv[]) {
   folly::init(&argc, &argv);
