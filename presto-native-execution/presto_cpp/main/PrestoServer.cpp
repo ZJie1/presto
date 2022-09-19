@@ -235,7 +235,9 @@ void PrestoServer::run() {
   velox::parquet::registerParquetReaderFactory();
 #endif
 
-  facebook::velox::plugin::CiderVeloxPluginCtx::init();
+  if (FLAGS_enable_velox_plugin_cider) {
+    facebook::velox::plugin::CiderVeloxPluginCtx::init();
+  }
 
   taskManager_ = std::make_unique<TaskManager>(
       systemConfig->values(), nodeConfig->values());
