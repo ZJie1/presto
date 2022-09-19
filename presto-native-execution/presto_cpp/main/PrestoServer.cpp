@@ -40,6 +40,7 @@
 #include "velox/exec/PartitionedOutputBufferManager.h"
 #include "velox/functions/prestosql/registration/RegistrationFunctions.h"
 #include "velox/serializers/PrestoSerializer.h"
+#include "velox-plugin/cider-velox/src/CiderVeloxPluginCtx.h"
 
 #ifdef PRESTO_ENABLE_PARQUET
 #include "velox/dwio/parquet/RegisterParquetReader.h" // @manual

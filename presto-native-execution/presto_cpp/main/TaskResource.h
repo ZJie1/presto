@@ -17,7 +17,7 @@
 #include "presto_cpp/main/http/HttpServer.h"
 #include "velox/common/memory/Memory.h"
 
-DECLARE_bool(FLAGS_enable_velox_plugin_BDTK);
+DECLARE_bool(enable_velox_plugin_BDTK);
 
 namespace facebook::presto {
 
