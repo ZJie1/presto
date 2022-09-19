@@ -238,7 +238,7 @@ void PrestoServer::run() {
   velox::parquet::registerParquetReaderFactory();
 #endif
 
-  if (FLAGS_enable_velox_plugin_cider) {
+  if (FLAGS_enable_velox_plugin_BDTK) {
     facebook::velox::plugin::CiderVeloxPluginCtx::init();
   }
 
