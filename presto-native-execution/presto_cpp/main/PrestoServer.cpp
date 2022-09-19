@@ -235,6 +235,10 @@ void PrestoServer::run() {
   velox::parquet::registerParquetReaderFactory();
 #endif
 
+  if (FLAGS_enable_velox_plugin_BDTK) {
+    facebook::velox::plugin::CiderVeloxPluginCtx::init();
+  }
+
   taskManager_ = std::make_unique<TaskManager>(
       systemConfig->values(), nodeConfig->values());
   taskManager_->setBaseUri(fmt::format(kBaseUriFormat, address_, servicePort));

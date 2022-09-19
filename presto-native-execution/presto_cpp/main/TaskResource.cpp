@@ -23,6 +23,8 @@
 #include "velox/type/tz/TimeZoneMap.h"
 #include "velox-plugin/cider-velox/src/CiderVeloxPluginCtx.h"
 
+DEFINE_bool(enable_velox_plugin_BDTK, true, "switch to turn on velox plugin using BDTK");
+
 namespace facebook::presto {
 
 namespace {
@@ -226,7 +228,6 @@ proxygen::RequestHandler* TaskResource::createOrUpdateTask(
           protocol::TaskUpdateRequest taskUpdateRequest =
               json::parse(updateJson);
           velox::core::PlanFragment planFragment;
-          facebook::velox::plugin::CiderVeloxPluginCtx::init();
           if (taskUpdateRequest.fragment) {
             auto fragment =
                 velox::encoding::Base64::decode(*taskUpdateRequest.fragment);
@@ -236,7 +237,9 @@ proxygen::RequestHandler* TaskResource::createOrUpdateTask(
                 prestoPlan, taskUpdateRequest.tableWriteInfo, taskId);
             auto rootNode = planFragment.planNode;
             LOG(INFO) << "Root node is " << rootNode->name();
-            planFragment.planNode = facebook::velox::plugin::CiderVeloxPluginCtx::transformVeloxPlan(rootNode);
+            if (FLAGS_enable_velox_plugin_BDTK) {
+              planFragment.planNode = facebook::velox::plugin::CiderVeloxPluginCtx::transformVeloxPlan(rootNode);
+            }
           }
           const auto& session = taskUpdateRequest.session;
           auto configs = std::unordered_map<std::string, std::string>(
