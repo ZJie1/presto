@@ -22,6 +22,10 @@
 #include "velox/connectors/hive/storage_adapters/hdfs/HdfsFileSystem.h" // @manual
 #endif
 
+#ifdef VELOX_ENABLE_HDFS
+#include "velox/connectors/hive/storage_adapters/hdfs/HdfsFileSystem.h" // @manual
+#endif
+
 namespace facebook::presto {
 
 void registerOptionalHiveStorageAdapters() {
@@ -30,6 +34,9 @@ void registerOptionalHiveStorageAdapters() {
 #endif
 
 #ifdef PRESTO_ENABLE_HDFS
+  velox::filesystems::registerHdfsFileSystem();
+
+#ifdef VELOX_ENABLE_HDFS
   velox::filesystems::registerHdfsFileSystem();
 #endif
 }
