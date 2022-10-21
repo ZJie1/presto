@@ -85,6 +85,10 @@ target_link_libraries(
   ${CIDER_VELOX_LIB}
   )
 
+if(VELOX_ENABLE_HDFS)
+  target_link_libraries(presto_server_lib velox_hdfs)
+endif()
+
 add_executable(presto_server PrestoMain.cpp)
 
 target_link_libraries(

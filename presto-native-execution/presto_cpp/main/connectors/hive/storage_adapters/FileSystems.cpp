@@ -18,11 +18,18 @@
 #include "velox/connectors/hive/storage_adapters/s3fs/S3FileSystem.h" // @manual
 #endif
 
+#ifdef VELOX_ENABLE_HDFS
+#include "velox/connectors/hive/storage_adapters/hdfs/HdfsFileSystem.h" // @manual
+#endif
+
 namespace facebook::presto {
 
 void registerOptionalHiveStorageAdapters() {
 #ifdef PRESTO_ENABLE_S3
   velox::filesystems::registerS3FileSystem();
+#endif
+#ifdef VELOX_ENABLE_HDFS
+    velox::filesystems::registerHdfsFileSystem();
 #endif
 }
 

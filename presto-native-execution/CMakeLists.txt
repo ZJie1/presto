@@ -58,6 +58,10 @@ if(PRESTO_ENABLE_PARQUET)
   add_definitions(-DPRESTO_ENABLE_PARQUET)
 endif()
 
+if(VELOX_ENABLE_HDFS)
+  add_definitions(-DVELOX_ENABLE_HDFS)
+endif()
+
 set(VELOX_BUILD_TESTING
     OFF
     CACHE BOOL "Enable Velox tests")
