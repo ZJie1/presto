@@ -38,7 +38,7 @@ set(
   velox_substrait_convertor
   velox_substrait_plan_converter
   velox_duckdb_parser
-  velox_exec_test_util
+  velox_exec_test_lib
   velox_plan_transformer
   velox_arrow_bridge
   cider
