@@ -35,6 +35,7 @@ void registerOptionalHiveStorageAdapters() {
 
 #ifdef PRESTO_ENABLE_HDFS
   velox::filesystems::registerHdfsFileSystem();
+#endif
 
 #ifdef VELOX_ENABLE_HDFS
   velox::filesystems::registerHdfsFileSystem();
